@@ -1,0 +1,330 @@
+<link rel="import" href="../polymer/polymer.html">
+<link rel="import" href="../elliptical-polymer-behaviors/component-behavior.html">
+<link rel="import" href="../elliptical-document/elliptical-document.html">
+<link rel="import" href="../elliptical-utils-card/elliptical-utils-card.html">
+<link rel="import" href="../ui-sticky/ui-sticky.html">
+<link rel="import" href="checkout-elements.html">
+<link rel="import" href="checkout-step-progress.html">
+<link rel="import" href="checkout-collapse.html">
+<link rel="import" href="order-success.html">
+<link rel="import" href="order-failure.html">
+
+<dom-module id="shopping-checkout">
+    <style>
+        :host .hide{
+            display:none;
+        }
+        :host checkout-progress>h5{
+            margin-bottom:3em;
+            font-family:'robotoregular';
+            font-size:1em;
+        }
+    </style>
+    <template>
+        <checkout-screen id="checkoutScreen" class="hide">
+            <checkout-progress>
+                <h5 id="progressHeader">Your Checkout Progress</h5>
+                <content select="checkout-step-progress"></content>
+            </checkout-progress>
+            <checkout-accordion>
+                <content select="checkout-collapse"></content>
+            </checkout-accordion>
+        </checkout-screen>
+        <transaction-screen class="hide" id="transactionScreen">
+            <content select="order-success"></content>
+            <content select="order-failure"></content>
+        </transaction-screen>
+        <div class="hide" id="emptyTransaction">There are currently no items to checkout...</div>
+    </template>
+</dom-module>
+<script>
+
+    Polymer({
+
+        is: 'shopping-checkout',
+
+        behaviors:[Elliptical.ComponentBehavior,Elliptical.TemplateBehavior],
+
+        properties: {
+            orderSuccessTemplate:{
+                type:String,
+                value:'components.shopping-checkout.templates.order-success'
+            },
+
+            notifyService:{
+                type:String,
+                value:null
+            },
+
+            objectAssign:{
+                type:Boolean,
+                value:true
+            },
+
+            disableScrollTop:{
+                type:Boolean,
+                value:false
+            },
+
+            card:{
+                type:Object,
+                value:elliptical.utils.card
+            },
+
+            _accordion:{
+                type:Object,
+                value:null
+            },
+
+            _collapseItems:{
+                type:Array,
+                value:null
+            },
+
+            _items:{
+                type:Array,
+                value:null
+            },
+
+            _clone:{
+                type:Object,
+                value:null
+            }
+        },
+
+        listeners:{
+
+        },
+
+        ready:function(){
+            this._setAccordion();
+            this._setItems();
+            this._onComponentReady();
+            this._events();
+            var self=this;
+            setTimeout(function(){
+                self._cloneScope();
+            },2000);
+        },
+
+        _events:function(){
+            var $document=$(document);
+            this._event(this.element,'submit',this._onSubmit.bind(this)); //listen for checkout step form submission
+            this._event($document,'step.progress.current',this._onItemShow.bind(this)); //listen for checkout-step-progress current progress
+            this._event($document,'checkout.item.current',this._onItemShow.bind(this)); //listen from checkout-step component
+            this._event($document,'checkout.step.show',this._onSelectedShow.bind(this));//listen for selection from base collapse component
+            this._event($document,'shipping.reset',this._onShippingReset.bind(this));//listen for selection from base collapse component
+            this._event($document,'shopping.checkout.resubmit',this._onCheckoutResubmit.bind(this));//listen for checkout resubmit
+            this._event($document,'shopping.checkout.failure',this._onCheckoutFailure.bind(this));//listen for checkout failure
+            this._event($document,'shopping.checkout.success',this._onCheckoutSuccess.bind(this));//listen for checkout success
+            this._event($document,'order.review.service.request',this._onOrderServiceRequest.bind(this));//listen for orer service request
+        },
+        
+        _onScopeBinding:function(){
+            if(!this.$scope || !this.$scope.shoppingBag.items || this.$scope.shoppingBag.items.length===0) {
+                this.$.emptyTransaction.classList.remove('hide');
+            }else {
+                this.$.checkoutScreen.classList.remove('hide');
+            }
+        },
+
+        _cloneScope:function(){
+            this._clone=elliptical.utils.object.deepClone(this.$scope);
+        },
+
+        _setAccordion:function(){
+            this._accordion=this.querySelector('checkout-collapse');
+            this._collapseItems=$(this._accordion).find('checkout-item');
+        },
+
+        _setItems:function(){
+            this._items=$(this).find('.item-section');
+        },
+
+        _onItemShow:function(event,data){
+            var index=data.index;
+            this._setIconItemOn(index);
+            var offStartIndex=index + 1;
+            this._setIconItemOff(offStartIndex);
+            this._onStep(index);
+        },
+
+        _onSelectedShow:function(evet,data){
+            this._scrollTop();
+            var index=data.index;
+            this._setIconItemOn(index);
+            var offStartIndex=index + 1;
+            this._setIconItemOff(offStartIndex);
+            this._fireEvent('show',{index:index});
+        },
+
+        _onStep:function(index){
+            var accordion=this._accordion;
+            accordion.show(index);
+            this._fireEvent('show',{index:index});
+            this._scrollTop();
+        },
+
+        _setIconItemOn:function(index){
+            var accordion=this._accordion;
+            for(var i=index;i > -1;i--){
+                accordion.showToggle(i);
+                var item=this._collapseItems[i];
+                var icon=item.querySelector('collapse-icon');
+                icon.classList.add('on');
+            }
+        },
+
+        _setIconItemOff:function(index){
+            var length=this._items.length;
+            for(var i=index;i <length;i++){
+                var item=this._collapseItems[i];
+                var icon=item.querySelector('collapse-icon');
+                icon.classList.remove('on');
+            }
+        },
+
+        _scrollTop:function(){
+            if(!this.disableScrollTop) window.scrollTo(0, 0);
+        },
+
+        _onShippingReset:function(event,data){
+            var index=data.index;
+            var prop=data.prop;
+            this._resetValueProp(prop);
+            var item=this._getItem(index);
+            item.$rebind();
+        },
+
+        _onShippingToBilling:function(index){
+            this.$scope.shippingAddress=this.$scope.billingAddress;
+            var item=this._getItem(index);
+            item.$rebind();
+        },
+
+        _resetValueProp:function(prop){
+            console.log(this._clone[prop]);
+            this.$scope[prop]=this._clone[prop];
+        },
+
+        _setScopeProp:function(value,prop){
+            this.$scope[prop]=value;
+        },
+
+        _getItem:function(index){
+            return this._items[index];
+        },
+
+        _getCollapseItem:function(target){
+            return target.parents('checkout-item')[0];
+        },
+
+        _getCurrentStep:function(target){
+            var collapseItem=this._getCollapseItem(target);
+            var index=collapseItem.getAttribute('step');
+            if(index) return parseInt(index);
+            else return -1;
+        },
+
+        _getCurrentIndex:function(target){
+            var step=this._getCurrentStep(target);
+            if(step > -1) return step-=1;
+            else return -1;
+        },
+
+        _onSubmit:function(event){
+            event.stopPropagation();
+            event.preventDefault();
+            var target=$(event.target);
+            var body = target.document();
+            var id=target.attr('data-id');
+            var index=this._getCurrentIndex(target);
+            var checkoutItem=this._getItem(index);
+            checkoutItem.manageStep(index,body,id,this);
+        },
+
+        _onCheckoutResubmit:function(event,data){
+            var orderFailure=this.querySelector('order-failure');
+            orderFailure.classList.remove('show');
+            this.$.transactionScreen.classList.add('hide');
+            this.$.checkoutScreen.classList.remove('hide');
+        },
+
+        _onCheckoutFailure:function(event,data){
+            var orderFailure=this.querySelector('order-failure');
+            var orderSuccess=this.querySelector('order-success');
+            orderFailure.failureReason=data.message;
+            orderSuccess.classList.add('hide');
+            orderFailure.classList.add('show');
+            this.$.checkoutScreen.classList.add('hide');
+            this.$.transactionScreen.classList.remove('hide');
+        },
+
+        _onCheckoutSuccess:function(event,data){
+            var orderFailure=this.querySelector('order-failure');
+            var orderSuccess=this.querySelector('order-success');
+            orderFailure.classList.add('hide');
+            orderSuccess.classList.add('show');
+            this.$.checkoutScreen.classList.add('hide');
+            this.$.transactionScreen.classList.remove('hide');
+        },
+
+        _onOrderServiceRequest:function(){
+            var data={
+                service:this.service,
+                notifyService:this.notifyService,
+                template:this.orderSuccessTemplate
+            };
+            this.element.trigger('shopping.checkout.services',data);
+        },
+
+        _fireEvent:function(evt,data){
+            this.element.trigger('collapse.' + evt,data);
+        },
+
+        getItem:function(index){
+            return this._getItem(index);
+        },
+
+        setScopeProp:function(value,prop){
+            this._setScopeProp(value,prop);
+        },
+
+        rebindItem:function(index){
+            var item=this._getItem(index);
+            item.$rebind();
+        },
+
+        getScope:function(){
+            return this.$scope;
+        },
+        
+        getBag:function(){
+             var shoppingBag=this.querySelector('shopping-bag');
+             return shoppingBag.getBag();
+        },
+        
+        getFormattedBag:function(){
+             var shoppingBag=this.querySelector('shopping-bag');
+             return shoppingBag.getFormattedBag();
+        },
+        
+        getBagTotal:function(){
+            var shoppingBag=this.querySelector('shopping-bag');
+            return shoppingBag.getBagTotal();
+        },
+        
+        updateBagProperty:function(prop,val){
+            var shoppingBag=this.querySelector('shopping-bag');
+            shoppingBag.notifyProperty(prop,val);
+        },
+        
+        updateBagTotal:function(val){
+            var shoppingBag=this.querySelector('shopping-bag');
+            shoppingBag.notifyTotal(val);
+        }
+
+
+    });
+
+</script>

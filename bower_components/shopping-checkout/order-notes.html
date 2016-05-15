@@ -1,0 +1,43 @@
+<link rel="import" href="../polymer/polymer.html">
+<link rel="import" href="../elliptical-polymer-behaviors/component-behavior.html">
+<link rel="import" href="../elliptical-polymer-behaviors/template-behavior.html">
+<link rel="import" href="../md-input/md-input-all.html">
+<link rel="import" href="checkout-item-icon.html">
+
+<dom-module id="order-notes">
+    <style>
+    </style>
+    <template>
+        <md-submit css-class="ui-button secondary next" data-role="screen-button" raised="true">continue</md-submit>
+        <checkout-item-icon header step id="itemIcon"></checkout-item-icon>
+        <flex-box class="space-between item-section-box">
+            <content select="form"></content>
+        </flex-box>
+    </template>
+</dom-module>
+<script>
+
+    Polymer({
+
+        is: 'order-notes',
+
+        behaviors:[Elliptical.ComponentBehavior,Elliptical.TemplateBehavior,Elliptical.Behaviors.CheckoutItem],
+
+        properties: {
+            objectAssign:{
+                type:Boolean,
+                value:true
+            },
+            autoBind:{
+                type:Boolean,
+                value:true
+            }
+        },
+
+        ready:function(){
+            this._setIconHeader();
+        }
+
+    });
+
+</script>

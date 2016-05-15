@@ -1,0 +1,125 @@
+<!--
+@license
+Copyright (c) 2015 The Polymer Project Authors. All rights reserved.
+This code may only be used under the BSD style license found at http://polymer.github.io/LICENSE.txt
+The complete set of authors may be found at http://polymer.github.io/AUTHORS.txt
+The complete set of contributors may be found at http://polymer.github.io/CONTRIBUTORS.txt
+Code distributed by Google as part of the polymer project is also
+subject to an additional IP rights grant found at http://polymer.github.io/PATENTS.txt
+-->
+<link rel="import" href="../../bower_components/polymer/polymer.html">
+
+<dom-module id="minecraft-element">
+    <style include="shared-styles"></style>
+    <style is="custom-style">
+      :host {
+        display: block;
+      }
+      a {
+          color: inherit;
+          text-decoration: inherit; /* no underline */
+        }
+        a:hover {
+            color: var(--paper-green-500);
+        }
+        
+        @media (max-width: 600px) {
+
+        }
+        
+        /*Buttom styling*/
+        paper-button.red {
+          background-color: darkred;
+          color: white;
+            margin-bottom: 20px;
+
+        }
+        paper-button.orange {
+          background-color: var(--paper-orange-500);
+          color: white;
+            margin-bottom: 20px;
+
+        }
+        paper-button.blue {
+            background-color: #3C76B3;
+            color: white;
+            margin-bottom: 20px;
+
+        }
+        paper-button {
+          --paper-button-ink-color: var(--paper-indigo-500);
+            
+        }
+        paper-button.btn{
+                      --paper-button-ink-color: var(--paper-indigo-500);
+
+        }
+        paper-button.btn:hover {
+          background-color: var(--paper-green-500);
+
+        }
+        
+        
+        
+        .gettingStarted{
+
+        }
+        .ftbImage{
+            margin: 10px;
+            height: 180px;
+            
+        }
+        .description {
+            margin: 20px;
+        }
+        
+/*
+        div {
+            border: 1px solid red;
+        }
+*/
+        
+    </style>
+
+    <template>
+
+      <div class="vertical layout center-center wrap">
+        <div class="gettingStarted">
+                        <h2 class="">Getting Started</h2>
+
+            <div class="horizontal layout center-center wrap-reverse">
+                <div class="vertical layout description">
+                    <a href="http://www.minestatus.net/145908-temco-ftb-infinity-evolved-1-7-10-server"><img src="http://www.minestatus.net/145908-temco-ftb-infinity-evolved-1-7-10-server/image/original.png" alt="Temco FTB Infinity Evolved 1.7.10 Server"></a>
+                    <h4>Our server uses the modpack <a href="http://www.feed-the-beast.com/projects/ftb-infinity-evolved">"FTB Infinity Evolved"</a><br>
+                    Get the modpack on <a href="http://mods.curse.com/modpacks/minecraft/227724-ftb-infinity-evolved">Curse Client</a> or <a href="http://www.feed-the-beast.com/projects/ftb-infinity-evolved">FTB Launcher</a></h4>
+                <div class="horizontal layout center-center wrap">
+                    <a href="http://mods.curse.com/modpacks/minecraft/227724-ftb-infinity-evolved"><paper-button raised class="btn orange"><iron-icon icon="cloud-download"></iron-icon> Curse Download</paper-button></a>
+                    <a href="http://www.feed-the-beast.com/projects/ftb-infinity-evolved"><paper-button raised class="btn red"><iron-icon icon="cloud-download"></iron-icon> FTB Download</paper-button></a>
+
+                    </div>
+                </div>
+                <a href="http://www.feed-the-beast.com/projects/ftb-infinity-evolved"><image class="ftbImage" src="../../images/635818079923323584.png"></image></a>
+            </div>
+        </div>
+          
+          <div class="voting horizontal layout center-center wrap">
+            <h2 class="">1 Vote = 1 Reward</h2>
+            <a href="https://www.minestatus.net/145908-temco-ftb-infinity-evolved-1-7-10-server/vote"><paper-button raised class="btn blue"><iron-icon icon="thumb-up"></iron-icon> Click to Vote</paper-button></a>
+          </div>
+
+    </template>
+
+
+  <script>
+    (function() {
+      'use strict';
+
+      Polymer({
+        is: 'minecraft-element',
+        properties: {
+        }
+      });
+    })();
+  </script>
+
+</dom-module>

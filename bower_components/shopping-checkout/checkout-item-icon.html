@@ -1,0 +1,32 @@
+<link rel="import" href="../polymer/polymer.html">
+<link rel="import" href="item-behavior.html">
+<dom-module id="checkout-item-icon">
+    <template>
+        <div class="icon-core-circle-filled icon">
+            <span id="stepLabel"></span>
+        </div>
+        <h4 id="headerLabel"></h4>
+    </template>
+</dom-module>
+<script>
+
+    Polymer({
+
+        is: 'checkout-item-icon',
+
+        properties: {
+
+        },
+
+        ready:function(){
+
+        },
+
+        setHeader:function(text,step){
+            this.$.headerLabel.innerHTML=text;
+            this.$.stepLabel.innerText=step;
+        }
+
+    });
+
+</script>

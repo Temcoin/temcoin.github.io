@@ -1,0 +1,57 @@
+<link rel="import" href="../elliptical-polymer-behaviors/component-behavior.html">
+
+<script>
+    (function (root, factory) {
+        root.Elliptical.Behaviors=root.Elliptical.Behaviors || {};
+        root.Elliptical.Behaviors.CheckoutItem=factory();
+    }(this, function () {
+
+        return {
+            _setIconHeader:function(){
+                var icon=this.$.itemIcon;
+                var parent=$(this).parents('checkout-item');
+                var header=parent.attr('header');
+                var step=parent.attr('step');
+                icon.setHeader(header,step);
+            },
+
+            manageStep:function(index,value,prop,source){
+                source.setScopeProp(value,prop);
+                index+=1;
+                this.element.trigger('step.progress.rebind',{step:index,value:value});
+                this.element.trigger('checkout.item.current',{index:index,value:value});
+            },
+
+            _baseEvents:function(){
+                var click=this._data.click;
+                this._event(this.element,click,'[data-role="screen-button"]',this._onScreenButtonClick.bind(this));
+                this._event(this.element,'submit','form',this._onFormSubmit.bind(this));
+            },
+
+            _onScreenButtonClick:function(event){
+                var form=this.querySelector('form');
+                $(form).submit();
+            },
+            
+            _onFormSubmit:function(event){
+                var required=event.target.querySelectorAll('[required="true"]');
+                var stop=false;
+                for(var i=0;i<required.length;i++){
+                    var element=required[i];
+                    if(element.validity && !element.validity.valid){
+                        element.classList.add('error');
+                        stop=true;
+                    }
+                }
+                if(stop){
+                     event.preventDefault();
+                     event.stopPropagation();
+                     this.element.trigger('checkout.item.validation.error',{value:required});
+                }
+               
+            }
+        }
+
+
+    }));
+</script>

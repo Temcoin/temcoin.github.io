@@ -1,0 +1,30 @@
+<link rel="import" href="../polymer/polymer.html">
+
+<dom-module id="collapse-icon">
+    <template>
+        <h4 class="icon-core-circle-filled icon"><span id="headerStep"></span></h4>
+        <span id="headerLabel"></span>
+    </template>
+</dom-module>
+<script>
+
+    Polymer({
+
+        is: 'collapse-icon',
+
+        properties: {
+
+        },
+
+        ready:function(){
+
+        },
+
+        setHeader:function(text,step){
+            this.$.headerLabel.innerText=text;
+            this.$.headerStep.innerText=step;
+        }
+
+    });
+
+</script>
