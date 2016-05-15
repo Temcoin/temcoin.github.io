@@ -1,0 +1,211 @@
+<link rel="import" href="../polymer/polymer.html">
+<link rel="import" href="../elliptical-polymer-behaviors/component-behavior.html">
+<link rel="import" href="../elliptical-polymer-behaviors/template-behavior.html">
+<link rel="import" href="checkout-step.html">
+
+<script>
+
+    Polymer({
+
+        is: 'checkout-step-progress',
+
+        behaviors:[Elliptical.ComponentBehavior,Elliptical.TemplateBehavior],
+
+        properties: {
+            _steps:{
+                type:Array,
+                value:null
+            },
+            _buttons:{
+                type:Array,
+                value:null
+            }
+
+        },
+
+        ready:function(){
+            this._events();
+            this._setStepItems();
+        },
+
+        _events:function(){
+            var click = this._data.click;
+            var element = this.element;
+            var $document=$(document);
+            this._event($document, 'collapse.show', this._onItemShow.bind(this));
+            this._event(element, click,'[step-button]', this._onEditClick.bind(this));
+        },
+
+        _buttonEvent:function(){
+            var click=this._data.click;
+            var buttons=this.element.find('[step-button]');
+            this._buttons=buttons;
+            this._event(buttons,click,this._onEditClick.bind(this));
+        },
+
+
+        /**
+         * step items reference
+         * @returns {*}
+         * @private
+         */
+        _setStepItems:function(){
+            var steps=this.element.find('checkout-step');
+            this._steps=steps;
+            return steps;
+        },
+
+        /**
+         * get step item element by index
+         * @param index
+         * @returns {*|jQuery|HTMLElement}
+         * @private
+         */
+        _getStepByIndex: function(index){
+            var steps=this._steps;
+            if(!steps){
+                steps=this._setStepItems();
+            }
+            var step=steps[index];
+            return $(step);
+        },
+
+
+        /**
+         * event handler for collapse.show
+         * @param event
+         * @param data
+         * @private
+         */
+        _onItemShow: function (event, data) {
+            this._showItem(data);
+        },
+
+        /**
+         * when the displayed step changes, update the progress display
+         * @param data
+         * @private
+         */
+        _showItem:function(data){
+            var index = data.index;
+            var lastIndex = index - 1;
+            this._showItemTemplates(lastIndex);
+            this._hideItemTemplates(index);
+            this._updateProgress(index);
+        },
+
+        /**
+         * show applicable item data templates
+         * @param index
+         * @private
+         */
+        _showItemTemplates:function(index){
+            for(var i=index;i>-1;i--){
+                var item=this._getStepByIndex(i);
+                var div=item.find('[data-bind]');
+                div.addClass('visible');
+                var label=item.find('label');
+                label.hide();
+                var button=item.find('[step-button]');
+                button.addClass('visible');
+            }
+        },
+
+        /**
+         * hide applicable item data templates(shows message: 'pending..'
+         * @param index
+         * @private
+         */
+        _hideItemTemplates:function(index){
+            var length=this._steps.length;
+            for(var i=index;i<length;i++){
+                var item=this._getStepByIndex(i);
+                var div=item.find('[data-bind]');
+                div.removeClass('visible');
+                var label=item.find('label');
+                label.show();
+                var button=item.find('[step-button]');
+                button.removeClass('visible');
+            }
+        },
+
+        /**
+         * update progress ui
+         * @param index
+         * @private
+         */
+        _updateProgress:function(index){
+            var completedIndex=index-1;
+            for(var i=completedIndex;i>-1;i--){
+                var item=this._getStepByIndex(i);
+                item.removeClass('current')
+                        .addClass('complete');
+            }
+            var length=this._steps.length;
+            for(var i=index;i<length;i++){
+                var item=this._getStepByIndex(i);
+                item.removeClass('current')
+                        .removeClass('complete');
+            }
+            var currentItem=this._getStepByIndex(index);
+            currentItem.removeClass('complete')
+                    .addClass('current');
+        },
+
+        /**
+         * handler for progress step edit button
+         * @private
+         */
+        _onEditClick:function(event){
+            var buttons = this.element.find('[step-button]');
+            var target=$(event.target);
+            var index=buttons.index(target);
+            var data={
+                index:index
+            };
+            this._fireEvent('step.progress.current',data);
+        },
+
+        _getToggles: function () {
+            return this.element.find('.ui-button');
+        },
+
+        _disableTogglesByRange: function (index) {
+            var toggles = this._getToggles();
+            $.each(toggles, function (i, toggle) {
+                if (i < index) {
+                    $(toggle).css({ visibility: 'hidden' });
+                }
+            });
+        },
+
+        _onDisableToggle: function (data) {
+            var self = this;
+            var type = data.type;
+            var index = data.index;
+            var toggles = this._getToggles();
+            if (type === 'range') {
+                setTimeout(function () {
+                    self._disableTogglesByRange(index);
+                }, 500);
+
+            } else {
+                var toggle = toggles[index];
+                $(toggle).css({ visibility: 'hidden' });
+            }
+        },
+
+        _fireEvent:function(evt,data){
+            this.element.trigger(evt,data);
+        },
+
+        databind:function(val){
+            this.setAttribute('template','');
+            this.$scope=val;
+            console.log(this.$scope);
+            this._bindTemplate();
+        }
+
+    });
+
+</script>

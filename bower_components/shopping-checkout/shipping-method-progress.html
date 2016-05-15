@@ -1,0 +1,24 @@
+<dom-module id="shipping-method-progress">
+    <style>
+        :host{
+            display:block;
+        }
+    </style>
+    <template>
+        <section template>
+            {#shippingMethod}
+            <p><span>{description}</span></p>
+            {/shippingMethod}
+        </section>
+    </template>
+</dom-module>
+
+<script>
+    Polymer({
+        is: 'shipping-method-progress',
+        ready:function(){
+
+        }
+    });
+
+</script>

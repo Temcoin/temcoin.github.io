@@ -1,0 +1,62 @@
+<link rel="import" href="../polymer/polymer.html">
+<link rel="import" href="../elliptical-polymer-behaviors/component-behavior.html">
+<link rel="import" href="../elliptical-polymer-behaviors/template-behavior.html">
+<link rel="import" href="checkout-item-icon.html">
+<link rel="import" href="../md-input/md-input-all.html">
+<link rel="import" href="../md-select-lists/state-select.html">
+
+<dom-module id="shipping-address">
+    <style>
+    </style>
+    <template>
+        <md-submit css-class="ui-button secondary next" data-role="screen-button" raised="true">continue</md-submit>
+        <checkout-item-icon header step id="itemIcon"></checkout-item-icon>
+        <flex-box class="space-between item-section-box">
+            <content select="form">
+                 <form method="post" data-id="shippingAddress" template>
+                   {#shippingAddress}
+                     <md-input data-id="firstName" data-name="firstName" required="true" label="First Name" data-value="{firstName}"></md-input>
+                     <md-input data-id="lastName" data-name="lastName" required="true" label="Last Name" data-value="{lastName}"></md-input>
+                     <md-input data-id="street" data-name="street" required="true" label="Street Address" data-value="{street}"></md-input>
+                     <md-input data-id="city" data-name="city" required="true" label="City" data-value="{city}"></md-input>
+                     <state-select md-select required="true" data-name="state" data-id="state" data-value="{state}"></state-select>
+                     <md-input data-id="zipCode" data-name="zipCode" required="true" label="Zip Code" data-value="{zipCode}"></md-input>
+                     <md-input data-id="phone" data-name="phone" required="true" label="Phone" data-value="{phone}"></md-input>
+                     <md-input data-id="email" data-name="email" required="true" label="Email" data-value="{email}"></md-input>
+                     <button class="ui-button secondary next md elevation-1" button>Continue</button>
+                   {/shippingAddress}
+                 </form>
+            </content>
+            <aside>
+            </aside>
+        </flex-box>
+    </template>
+</dom-module>
+
+<script>
+
+    Polymer({
+
+        is: 'shipping-address',
+
+        behaviors:[Elliptical.ComponentBehavior,Elliptical.TemplateBehavior,Elliptical.Behaviors.CheckoutItem],
+
+        properties: {
+            objectAssign:{
+                type:Boolean,
+                value:true
+            },
+            autoBind:{
+                type:Boolean,
+                value:true
+            }
+        },
+
+        ready:function(){
+            this._setIconHeader();
+            this._baseEvents();
+            this._onComponentReady();
+        }
+    });
+
+</script>

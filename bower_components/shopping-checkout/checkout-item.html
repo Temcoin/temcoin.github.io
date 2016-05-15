@@ -1,0 +1,49 @@
+<link rel="import" href="../polymer/polymer.html">
+<link rel="import" href="collapse-icon.html">
+<link rel="import" href="billing-address.html">
+<link rel="import" href="shipping-address.html">
+<link rel="import" href="shipping-method.html">
+<link rel="import" href="payment-method.html">
+<link rel="import" href="order-notes.html">
+<link rel="import" href="order-review.html">
+
+<dom-module id="checkout-item">
+    <template>
+        <header>
+            <collapse-icon header="" step="" id="collapseIcon"></collapse-icon>
+            <button class="ui-button checkout" data-role="toggle">EDIT</button>
+        </header>
+        <section>
+            <content select=".item-section"></content>
+        </section>
+    </template>
+</dom-module>
+<script>
+
+    Polymer({
+
+        is: 'checkout-item',
+
+        behaviors:[],
+
+        properties: {
+            header:{
+                type:String,
+                value:null
+            },
+            step:{
+                type:String,
+                value:null
+            }
+
+        },
+
+        ready:function(){
+            var item=this.$.collapseIcon;
+            if(this.header)item.setHeader(this.header,this.step);
+            if(this.step) item.setAttribute('step',this.step);
+        }
+
+    });
+
+</script>

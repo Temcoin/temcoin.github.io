@@ -1,0 +1,27 @@
+<dom-module id="shipping-address-progress">
+    <style>
+        :host{
+            display:block;
+        }
+    </style>
+    <template>
+        <section template>
+            {#shippingAddress}
+            <p><span>{firstName}</span>&nbsp;<span>{lastName}</span></p>
+            <p><span>{street}</span></p>
+            <p><span>{city}</span>,<span>{state}</span><span>{zipCode}</span></p>
+            <p><span>{phone}</span></p>
+            {/shippingAddress}
+        </section>
+    </template>
+</dom-module>
+
+<script>
+    Polymer({
+        is: 'shipping-address-progress',
+        ready:function(){
+
+        }
+    });
+
+</script>

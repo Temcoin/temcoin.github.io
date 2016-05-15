@@ -1,0 +1,106 @@
+<link rel="import" href="../polymer/polymer.html">
+<link rel="import" href="../elliptical-polymer-behaviors/component-behavior.html">
+<link rel="import" href="../elliptical-polymer-behaviors/template-behavior.html">
+<link rel="import" href="checkout-item-icon.html">
+<link rel="import" href="../md-input/md-input-all.html">
+<link rel="import" href="../md-select-lists/state-select.html">
+<link rel="import" href="../md-submit/md-submit.html">
+
+<dom-module id="billing-address">
+    <style>
+    </style>
+    <template>
+        <md-submit css-class="ui-button secondary next" data-role="screen-button" raised="true">continue</md-submit>
+        <checkout-item-icon header step id="itemIcon"></checkout-item-icon>
+        <flex-box class="space-between item-section-box">
+            <content select="form">
+               <form method="post" data-id="billingAddress" template>
+                  {#billingAddress}
+                   <md-input data-id="firstName" data-name="firstName" required label="First Name" data-value="{firstName}"></md-input>
+                   <md-input data-id="lastName" data-name="lastName" required="true" label="Last Name" data-value="{lastName}"></md-input>
+                   <md-input data-id="street" data-name="street" required="true" label="Street Address" data-value="{street}"></md-input>
+                   <md-input data-id="city" data-name="city" required="true" label="City" data-value="{city}"></md-input>
+                   <state-select md-select required="true" data-name="state" data-id="state" data-value="{state}"></state-select>
+                   <md-input data-id="zipCode" data-name="zipCode" required="true" label="Zip Code" data-value="{zipCode}"></md-input>
+                   <md-input data-id="phone" data-name="phone" required="true" label="Phone" data-value="{phone}"></md-input>
+                   <md-input data-id="email" data-name="email" required="true" label="Email" data-value="{email}"></md-input>
+                   <button class="ui-button secondary next md elevation-1" button>Continue</button>
+                  {/billingAddress}
+               </form>
+            </content>
+            <aside>
+                <md-checkbox data-id="setShippingToBilling" label="Ship to this Address" data-checked="true"></md-checkbox>
+            </aside>
+        </flex-box>
+    </template>
+</dom-module>
+<script>
+
+    Polymer({
+
+        is: 'billing-address',
+
+        behaviors:[Elliptical.ComponentBehavior,Elliptical.TemplateBehavior,Elliptical.Behaviors.CheckoutItem],
+
+        properties: {
+           disableShippingAssign:{
+               type:Boolean,
+               value:false
+           },
+           shippingAssign:{
+               type:Boolean,
+               value:true
+           },
+           objectAssign:{
+                type:Boolean,
+                value:true
+           },
+           autoBind:{
+               type:Boolean,
+               value:true
+           }
+
+        },
+
+        ready:function(){
+            this._setIconHeader();
+            this._onComponentReady();
+            this._baseEvents();
+            if(!this.disableShippingAssign) this._events();
+        },
+
+        _events:function(){
+            this._event(this.element,'md.checkbox.change',this._onCheckedChanged.bind(this));
+        },
+
+        _onCheckedChanged:function(event,data){
+            var id=data.id;
+            if(id==='setShippingToBilling') {
+                this.shippingAssign=data.checked;
+                if(!data.checked) this._fireEvent('shipping.reset',{index:1,prop:'shippingAddress'});
+            }
+        },
+
+        _fireEvent:function(evt,data){
+            this.element.trigger(evt,data)
+        },
+
+        manageStep:function(index,value,prop,source){
+            var step;
+            source.setScopeProp(value,prop);
+            if(this.shippingAssign) {
+                source.setScopeProp(value, 'shippingAddress');
+                source.rebindItem(index + 1);
+                this.element.trigger('step.progress.rebind',{step:1});
+                this.element.trigger('step.progress.rebind',{step:2});
+                index+=2;
+            }else {
+                index+=1;
+                this.element.trigger('step.progress.rebind',{step:1});
+            }
+            this.element.trigger('checkout.item.current',{index:index,value:value});
+        }
+
+    });
+
+</script>

@@ -1,0 +1,74 @@
+<link rel="import" href="../polymer/polymer.html">
+<link rel="import" href="../ui-step-progress/step-progress-elements.html">
+<link rel="import" href="../elliptical-polymer-behaviors/component-behavior.html">
+<link rel="import" href="../elliptical-polymer-behaviors/template-behavior.html">
+<link rel="import" href="billing-address-progress.html">
+<link rel="import" href="shipping-address-progress.html">
+<link rel="import" href="shipping-method-progress.html">
+
+<dom-module id="checkout-step">
+    <template>
+        <progress-icon></progress-icon>
+        <progress-label>
+            <label class="pending">Pending...</label>
+            <h6><span id="stepLabel"></span> <span class="ui-button tiny checkout" step-button>EDIT</span></h6>
+            <content select="[data-bind]"></content>
+        </progress-label>
+    </template>
+</dom-module>
+<script>
+
+    Polymer({
+
+        is: 'checkout-step',
+
+        behaviors:[Elliptical.ComponentBehavior,Elliptical.TemplateBehavior],
+
+        properties: {
+            label:{
+                type:String,
+                value:null
+            },
+            step:{
+                type:Number,
+                value:null
+            },
+            objectAssign:{
+                type:Boolean,
+                value:true
+            },
+            autoBind:{
+                type:Boolean,
+                value:true
+            },
+            _data:{
+                type:Object,
+                value:null
+            }
+        },
+
+        ready:function(){
+            if(this.label) this.$.stepLabel.innerHTML=this.label;
+            this._onComponentReady();
+            this._events();
+        },
+
+        _events:function(){
+            var $document=$(document);
+            this._event($document,'step.progress.rebind',this._onRebindRequest.bind(this));
+        },
+
+        _onRebindRequest:function(event,data){
+            if(this.step===data.step) {
+                this._rebind();
+            }
+        },
+
+        setData:function(data){
+            this._bindTemplate(data);
+        }
+
+
+    });
+
+</script>

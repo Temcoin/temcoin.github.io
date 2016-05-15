@@ -1,0 +1,38 @@
+<link rel="import" href="../polymer/polymer.html">
+<link rel="import" href="../elliptical-polymer-behaviors/component-behavior.html">
+<link rel="import" href="collapse-behavior.html">
+<link rel="import" href="checkout-item.html">
+
+
+<script>
+
+    Polymer({
+
+        is: 'checkout-collapse',
+
+        behaviors:[Elliptical.ComponentBehavior,Elliptical.Behaviors.CheckoutCollapse],
+
+        properties: {
+            animated: {
+                type:Boolean,
+                value:false
+            },
+            duration: {
+                value:300
+            },
+            easing: {
+                type:String,
+                value:'linear'
+            }
+        },
+
+        ready:function(){
+            this._data.set('collapsible',null);
+            this._setCollapseItems();
+            this._collapseEvents();
+            this.__events();
+        }
+
+    });
+
+</script>

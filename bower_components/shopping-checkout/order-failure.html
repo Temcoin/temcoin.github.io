@@ -1,0 +1,56 @@
+<link rel="import" href="../polymer/polymer.html">
+<link rel="import" href="../elliptical-polymer-behaviors/component-behavior.html">
+
+
+<dom-module id="order-failure">
+    <style>
+    </style>
+    <template>
+        <flex-box class="top space-between summary-info">
+            <h2 class="error-label">Order Failure</h2>
+            <div class="track-button">
+                <button class="ui-button inverse track-button md elevation-1">Resubmit Order</button>
+            </div>
+        </flex-box>
+        <p></p>
+        <p>We're sorry, there was a problem processing your order.</p>
+        <p></p>
+        <p>Gateway Error Message:</p>
+        <p class="error-label">{{failureReason}}</p>
+        <p></p><p></p>
+        <p>Press the "Resubmit Order" button above to resubmit this order.</p>
+    </template>
+</dom-module>
+<script>
+
+    Polymer({
+
+        is: 'order-failure',
+
+        behaviors:[Elliptical.ComponentBehavior,Elliptical.TemplateBehavior],
+
+        properties: {
+            failureReason:{
+                type:String,
+                value:null,
+                notify:true
+            }
+        },
+
+        ready:function(){
+           this._events();
+        },
+
+        _events: function () {
+            var click=this._data.click;
+            this._event(this.element, click, 'button', this._onResubmit.bind(this));
+        },
+
+        _onResubmit:function(){
+            this.element.trigger('shopping.checkout.resubmit',{});
+
+        }
+
+    });
+
+</script>

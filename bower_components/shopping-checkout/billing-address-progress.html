@@ -1,0 +1,27 @@
+<dom-module id="billing-address-progress">
+    <style>
+        :host{
+            display:block;
+        }
+    </style>
+    <template>
+        <section template>
+            {#billingAddress}
+            <p><span>{firstName}</span>&nbsp;<span>{lastName}</span></p>
+            <p><span>{street}</span></p>
+            <p><span>{city}</span>,<span>{state}</span><span>{zipCode}</span></p>
+            <p><span>{phone}</span></p>
+            {/billingAddress}
+        </section>
+    </template>
+</dom-module>
+
+<script>
+    Polymer({
+        is: 'billing-address-progress',
+        ready:function(){
+
+        }
+    });
+
+</script>
