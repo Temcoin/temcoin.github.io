@@ -1,2 +1,0 @@
-# temcoin.github.io
-Readme
