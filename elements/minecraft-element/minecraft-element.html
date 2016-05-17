@@ -25,14 +25,17 @@ subject to an additional IP rights grant found at http://polymer.github.io/PATEN
         
         
         
-        @media (max-width: 587px) {
-            .modpackInfo h2 {
-                @apply (--layout-vertical);
-                @apply (--layout-center-center);
-            }
+        @media (max-width: 628px) {
+            
         }
         @media (max-width: 587px) {
+            .mcTitle {
+                @apply(--layout-vertical);
+                @apply(--layout-center-center);
+
+            }
             .downloadButtons {
+                @apply(--layout-vertical);
                 @apply(--layout-center-center);
             }
             .description {
@@ -46,6 +49,11 @@ subject to an additional IP rights grant found at http://polymer.github.io/PATEN
                 @apply(--layout-vertical);
                 @apply(--layout-wrap);
                 @apply(--layout-center-center);
+            }
+            
+            .modpackInfo h2 {
+                @apply (--layout-vertical);
+                @apply (--layout-center-center);
             }
             
         }
@@ -106,6 +114,7 @@ subject to an additional IP rights grant found at http://polymer.github.io/PATEN
         .downloadButtons a{
             margin-top: auto;
             margin-bottom: auto;
+            margin-right: 5px;
         }
         
         .voting a {
@@ -117,6 +126,12 @@ subject to an additional IP rights grant found at http://polymer.github.io/PATEN
         }
         .downloadText {
             font-weight: bold;
+            margin-right: 5px;
+            margin-bottom: 3px;
+            margin-top: 3px;
+        }
+        .or h4 {
+            margin-top: 500px;
         }
         
         #claimUI {
@@ -139,18 +154,30 @@ subject to an additional IP rights grant found at http://polymer.github.io/PATEN
         .description a img {
             margin-bottom: 10px;
         }
+        .mcTitle iron-icon {
+            
+        }
     </style>
 
     <template>
         <div class="bigContainer layout vertical">
         <div class="modpackInfo layout vertical">
+                <div class="mcTitle layout horizontal wrap">
                         <h2 class="">Temco Minecraft Server</h2>
-
+                    <span class="flex"></span>
+                    <div class="layout horizontal center-center">
+                        <a href="{{baseUrl}}/dynmap">
+                            <iron-icon icon="explore"></iron-icon>
+                        </a>
+                    </div>
+                </div>
             <div class="horizontal layout center-center wrap-reverse">
                 <div class="description vertical layout wrap flex">
                     <a href="http://www.minestatus.net/145908-temco-ftb-infinity-evolved-1-7-10-server"><img src="http://www.minestatus.net/145908-temco-ftb-infinity-evolved-1-7-10-server/image/original.png" alt="Temco FTB Infinity Evolved 1.7.10 Server"></a>
+
+                    <div class="downloadButtons horizontal center-center layout wrap">
                     <div class="downloadText">Download with</div>
-                    <div class="downloadButtons horizontal layout wrap">
+
                         <div class="or layout horizontal center-center">
                             <a href="http://mods.curse.com/modpacks/minecraft/227724-ftb-infinity-evolved"><paper-button raised class="btn orange"><iron-icon icon="cloud-download"></iron-icon> Curse App</paper-button></a>
                             <div class="downloadText">or</div>
