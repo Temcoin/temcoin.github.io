@@ -1,0 +1,157 @@
+<!--
+@license
+Copyright (c) 2015 The Polymer Project Authors. All rights reserved.
+This code may only be used under the BSD style license found at http://polymer.github.io/LICENSE.txt
+The complete set of authors may be found at http://polymer.github.io/AUTHORS.txt
+The complete set of contributors may be found at http://polymer.github.io/CONTRIBUTORS.txt
+Code distributed by Google as part of the polymer project is also
+subject to an additional IP rights grant found at http://polymer.github.io/PATENTS.txt
+-->
+<link rel="import" href="../../bower_components/polymer/polymer.html">
+
+<dom-module id="useful-links-element">
+    <style include="shared-styles"></style>
+    <style is="custom-style">
+      :host {
+        display: block;
+      }
+      a {
+          color: inherit;
+          text-decoration: inherit; /* no underline */
+        }
+        a:hover {
+            color: var(--paper-green-500);
+        }
+        
+        
+        
+        @media (max-width: 587px) {
+            .modpackInfo h2 {
+                @apply (--layout-vertical);
+                @apply (--layout-center-center);
+            }
+        }
+        @media (max-width: 587px) {
+            .downloadButtons {
+                @apply(--layout-center-center);
+            }
+            .description {
+                @apply(--layout-center-center);
+
+            }
+            .voting {
+                @apply(--layout-center-center);
+            }
+            .or {
+                @apply(--layout-vertical);
+                @apply(--layout-wrap);
+                @apply(--layout-center-center);
+            }
+            
+        }
+        
+        /*Buttom styling*/
+        paper-button.red {
+          background-color: #C73737;
+          color: white;
+
+        }
+        paper-button.orange {
+          background-color: var(--paper-orange-500);
+          color: white;
+            
+            
+
+        }
+        paper-button.blue {
+            background-color: #3C76B3;
+            color: white;
+            margin-left: 15px;
+            margin-right: 15px;
+
+        }
+        paper-button {
+          --paper-button-ink-color: var(--paper-indigo-500);
+            
+        }
+        paper-button.btn{
+            
+                      --paper-button-ink-color: var(--paper-indigo-500);
+
+        }
+        paper-button.btn:hover {
+          background-color: var(--paper-green-500);
+
+        }
+        
+        
+        
+        .useful-links{
+
+        }
+        .ftbImage{
+            margin: 10px;
+            height: 180px;
+            
+        }
+        .description {
+            margin: 20px;
+        }
+        
+/*
+        div {
+            border: 1px solid red;
+        }
+*/
+
+        
+        .voting a {
+            margin-top: auto;
+            margin-bottom: auto;
+        }
+        .voting img {
+            margin-right: 5px;
+        }
+        .downloadText {
+            font-weight: bold;
+        }
+    </style>
+
+    <template>
+        <div class="bigContainer layout vertical">
+        <div class="modpackInfo layout vertical">
+                        <h2 class="">Useful Links</h2>
+<h4>
+                      <li><a href="http://ftbwiki.org/Feed_The_Beast_Infinity_Evolved">FTB Infinity Evolved Wiki</a></li>
+                      <li><a href="http://ae-mod.info/">Applied Energistics 2 Info</a></li>
+                      <li><a href="http://thaumcraft-4.wikia.com/wiki/Thaumcraft_4_Wiki">Thaumcraft 4 Wiki</a></li>
+                      <li><a href="http://wiki.industrial-craft.net/index.php?title=Recipes_and_Resources_(experimental)">IndustrialCraft 2 Wiki</a></li>
+                      <li><a href="http://ftbwiki.org/Thermal_Expansion_4">Thermal Expansion 4 Wiki</a></li>
+
+                    </h4>
+            <div class="horizontal layout center-center wrap-reverse">
+                <div class="description vertical layout wrap flex">
+                    
+                  
+                
+                </div>
+            </div>
+        </div>
+ 
+            </div>
+    </template>
+
+
+  <script>
+    (function() {
+      'use strict';
+
+      Polymer({
+        is: 'useful-links-element',
+        properties: {
+        }
+      });
+    })();
+  </script>
+
+</dom-module>

@@ -47,7 +47,8 @@ max-width: 500px;
 }
 
 .minecraftpaper{
-max-width: 680px;
+max-width: 720px;
+/*    max-width: 1017px;*/
 }
 .discordpaper{
   /*max-width: 270px;*/
@@ -93,6 +94,7 @@ max-width: 370px;
     background: white;
     background-image: var(--paper-material-background-image);
     background-size:cover;
+    
   }
 
   paper-menu iron-icon {
@@ -163,7 +165,7 @@ max-width: 370px;
   /* Breakpoints */
 
   /* Small */
-  @media (max-width: 600px) {
+  @media (max-width: 759px) {
 
     paper-material {
       --menu-container-display: none;
@@ -184,13 +186,14 @@ max-width: 370px;
   }
 
   /* Tablet+ */
-  @media (min-width: 601px) {
+  @media (min-width: 758px) {
 
     paper-material {
       width: calc(98% - 46px);
       margin-bottom: 32px;
       padding-left: 30px;
       padding-right: 30px;
+    
     }
 
     #drawer.paper-drawer-panel > [drawer] {
@@ -198,7 +201,7 @@ max-width: 370px;
     }
 
     iron-pages {
-      padding: 48px 62px;
+      padding: 0 62px;
     }
 
   }

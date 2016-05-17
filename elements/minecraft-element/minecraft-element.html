@@ -23,27 +23,51 @@ subject to an additional IP rights grant found at http://polymer.github.io/PATEN
             color: var(--paper-green-500);
         }
         
-        @media (max-width: 600px) {
+        
+        
+        @media (max-width: 587px) {
+            .modpackInfo h2 {
+                @apply (--layout-vertical);
+                @apply (--layout-center-center);
+            }
+        }
+        @media (max-width: 587px) {
+            .downloadButtons {
+                @apply(--layout-center-center);
+            }
+            .description {
+                @apply(--layout-center-center);
 
+            }
+            .voting {
+                @apply(--layout-center-center);
+            }
+            .or {
+                @apply(--layout-vertical);
+                @apply(--layout-wrap);
+                @apply(--layout-center-center);
+            }
+            
         }
         
         /*Buttom styling*/
         paper-button.red {
           background-color: #C73737;
           color: white;
-            margin-bottom: 20px;
 
         }
         paper-button.orange {
           background-color: var(--paper-orange-500);
           color: white;
-            margin-bottom: 20px;
+            
+            
 
         }
         paper-button.blue {
             background-color: #3C76B3;
             color: white;
-            margin-bottom: 20px;
+            margin-left: 15px;
+            margin-right: 15px;
 
         }
         paper-button {
@@ -51,6 +75,7 @@ subject to an additional IP rights grant found at http://polymer.github.io/PATEN
             
         }
         paper-button.btn{
+            
                       --paper-button-ink-color: var(--paper-indigo-500);
 
         }
@@ -78,35 +103,104 @@ subject to an additional IP rights grant found at http://polymer.github.io/PATEN
             border: 1px solid red;
         }
 */
+        .downloadButtons a{
+            margin-top: auto;
+            margin-bottom: auto;
+        }
         
+        .voting a {
+            margin-top: auto;
+            margin-bottom: auto;
+        }
+        .voting img {
+            margin-right: 5px;
+        }
+        .downloadText {
+            font-weight: bold;
+        }
+        
+        #claimUI {
+            max-width: 300px;
+        }
+        
+        #claimMAP {
+            max-width: 400px;
+            margin-bottom: 15px;
+        }
+        
+        #friendsGUI{
+            max-width: 300px;
+            margin-bottom: 15px;
+
+        }
+        #addAsFriend{
+            max-width: 300px;
+        }
+        .description a img {
+            margin-bottom: 10px;
+        }
     </style>
 
     <template>
-
-      <div class="vertical layout center-center wrap">
-        <div class="gettingStarted">
-                        <h2 class="">Getting Started</h2>
+        <div class="bigContainer layout vertical">
+        <div class="modpackInfo layout vertical">
+                        <h2 class="">Temco Minecraft Server</h2>
 
             <div class="horizontal layout center-center wrap-reverse">
-                <div class="vertical layout description">
+                <div class="description vertical layout wrap flex">
                     <a href="http://www.minestatus.net/145908-temco-ftb-infinity-evolved-1-7-10-server"><img src="http://www.minestatus.net/145908-temco-ftb-infinity-evolved-1-7-10-server/image/original.png" alt="Temco FTB Infinity Evolved 1.7.10 Server"></a>
-                    <h4>Our server uses the modpack <a href="http://www.feed-the-beast.com/projects/ftb-infinity-evolved">"FTB Infinity Evolved"</a><br>
-                    Get the modpack on <a href="http://mods.curse.com/modpacks/minecraft/227724-ftb-infinity-evolved">Curse Client</a> or <a href="http://www.feed-the-beast.com/projects/ftb-infinity-evolved">FTB Launcher</a></h4>
-                <div class="horizontal layout center-center wrap">
-                    <a href="http://mods.curse.com/modpacks/minecraft/227724-ftb-infinity-evolved"><paper-button raised class="btn orange"><iron-icon icon="cloud-download"></iron-icon> Curse Download</paper-button></a>
-                    <a href="http://www.feed-the-beast.com/projects/ftb-infinity-evolved"><paper-button raised class="btn red"><iron-icon icon="cloud-download"></iron-icon> FTB Download</paper-button></a>
-
+                    <div class="downloadText">Download with</div>
+                    <div class="downloadButtons horizontal layout wrap">
+                        <div class="or layout horizontal center-center">
+                            <a href="http://mods.curse.com/modpacks/minecraft/227724-ftb-infinity-evolved"><paper-button raised class="btn orange"><iron-icon icon="cloud-download"></iron-icon> Curse App</paper-button></a>
+                            <div class="downloadText">or</div>
+                            <a href="http://www.feed-the-beast.com/projects/ftb-infinity-evolved"><paper-button raised class="btn red"><iron-icon icon="cloud-download"></iron-icon> FTB Launcher</paper-button></a>
+                        </div>
                     </div>
+                
                 </div>
-                <a href="http://www.feed-the-beast.com/projects/ftb-infinity-evolved"><image class="ftbImage" src="../../images/635818079923323584.png"></image></a>
+                <div class="vertical layout center-center"><a href="http://www.feed-the-beast.com/projects/ftb-infinity-evolved"><image class="ftbImage" src="../../images/635818079923323584.png"></image></a></div>
             </div>
         </div>
-          
-          <div class="voting horizontal layout center-center wrap">
-            <h2 class="">1 Vote = 1 Reward </h2>
-            <a href="https://www.minestatus.net/145908-temco-ftb-infinity-evolved-1-7-10-server/vote"><paper-button raised class="btn blue"><iron-icon icon="thumb-up"></iron-icon> Click to Vote</paper-button></a>
-          </div>
+        <div class="serverInfo layout vertical">
+        
+        
+          <div class="voting">
+              
+                <div class="voting layout horizontal wrap">
+                    <h2>Voting Rewards</h2>  <a href="https://www.minestatus.net/145908-temco-ftb-infinity-evolved-1-7-10-server"><paper-button raised class="btn blue"><iron-icon icon="thumb-up"></iron-icon> Click to Vote</paper-button></a>
+                    <h4> You can vote once every 12 hours.</h4>
+                </div>
+                
+                <ul>
+                  <h4>
+                      <li><a href="http://thaumcraft-4.wikia.com/wiki/Treasure_Bag"><img src="../../images/thaumcraft/lootbag.png">Common Treasure Bag - x1</a></li>
+                      <li><a href="http://thaumcraft-4.wikia.com/wiki/Treasure_Bag"><img src="../../images/thaumcraft/lootbagunc.png">Uncommon Treasure Bag - x1</a></li>
+                      <li><a href="http://thaumcraft-4.wikia.com/wiki/Treasure_Bag"><img src="../../images/thaumcraft/lootbagrare.png">Rare Treasure Bag - x1</a></li>
+                      <li><a href="http://ftb.gamepedia.com/Sleeping_Bag"><img src="../../images/openblocks/sleepingbag.png">Sleeping Bag - x1</a></li>
 
+                    </h4>
+                </ul>
+            </div>
+                <div class="claimingChunks layout vertical">
+                    <h2>Claiming Chunks</h2>
+                    <h4>Click the map icon in your inventory</h4>
+                    <img id="claimUI" src="../../images/minecraft/claim_chunks_UI.png">
+                    <h4>Left-click chunks to claim, right-click to unclaim</h4>
+                    <img id="claimMAP" src="../../images/minecraft/claim_chunks_MAP.png">
+                    <h4>
+                        Settings Gui is temporarily replaced with chat commands
+                        <ul>
+                            <li>/lmplayer_settings block_security friends</li>
+                            <li>/lmplayer_settings block_security private</li>
+                            <li>/lmplayer_settings block_security public</li>
+                        </ul>
+                    </h4>
+                    <h4>Add people to your friends list to allow them to build in your claim</h4>
+                    <img id="addAsFriend" src="../../images/minecraft/add_friend.png">
+                </div>
+            </div>
+            </div>
     </template>
 
 
